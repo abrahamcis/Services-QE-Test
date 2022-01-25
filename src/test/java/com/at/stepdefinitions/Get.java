@@ -1,8 +1,10 @@
 package com.at.stepdefinitions;
 
-import com.at.globalclasses.ApiPaths;
-import com.at.globalclasses.ApiTools;
-import com.at.globalclasses.BasicSecurityUtil;
+import com.at.constants.ApiPaths;
+import com.at.utils.ApiTools;
+import com.at.utils.BasicSecurityUtil;
+import com.at.utils.ObjectTools;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -33,7 +35,7 @@ public class Get {
 
     @When("I send a GET request")
     public void i_send_a_GET_request() {
-        base.response=base.ServiceApi.retrieve(base.ServiceApi.hostName+base.apiResource);
+        base.response=base.ServiceApi.retrieve(base.ServiceApi.hostName + base.apiResource);
     }
 
     @Then("the status code should be {string}")
@@ -48,4 +50,19 @@ public class Get {
         throw new io.cucumber.java.PendingException();
     }
 
+    @And("I set {string} as {string} value on the request")
+    public void iSetAsValueOnTheRequest(String field, String value) {
+        //ObjectTools.updateField(Object, field, value);
+    }
+
+    @And("I delete the field {string}")
+    public void iDeleteTheField(String field) {
+        //ObjectTools.deleteField(Object, field);
+    }
+
+
+    @And("Verify field {string} as {string} in response")
+    public void verifyFieldAsInResponse(String field, String expectedValue) {
+        //Assert.assertTrue(ObjectTools.verifyField(Object, field, expectedValue));
+    }
 }

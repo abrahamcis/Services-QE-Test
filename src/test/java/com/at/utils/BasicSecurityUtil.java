@@ -1,5 +1,6 @@
-package com.at.globalclasses;
+package com.at.utils;
 
+import com.at.utils.ApiTools;
 import org.springframework.http.ResponseEntity;
 
 public class BasicSecurityUtil {

@@ -1,4 +1,4 @@
-package com.at.globalclasses;
+package com.at.utils;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;

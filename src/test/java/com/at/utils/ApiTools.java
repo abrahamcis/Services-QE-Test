@@ -1,4 +1,4 @@
-package com.at.globalclasses;
+package com.at.utils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

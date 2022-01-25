@@ -1,4 +1,6 @@
-package com.at.globalclasses;
+package com.at.utils;
+
+import com.at.utils.MongoDBConnection;
 
 public class MongoDBUtils {
     public static boolean existID(String env, String mDataBase, String collection, String id) {
