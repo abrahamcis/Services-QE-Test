@@ -30,7 +30,7 @@ public class Get {
 
     @Given("I want to retrieve all users")
     public void i_want_to_retrieve_all_users() throws Exception{
-        base.apiResource= ApiPaths.SCE_GET_USERS;
+        base.apiResource= ApiPaths.GET_POKEMON;
     }
 
     @When("I send a GET request")
@@ -65,4 +65,10 @@ public class Get {
     public void verifyFieldAsInResponse(String field, String expectedValue) {
         //Assert.assertTrue(ObjectTools.verifyField(Object, field, expectedValue));
     }
+    
+    @Given("I have a pokemon name")
+   	public void i_have_a_pokemon_name() {
+   	  System.out.println("I´m working");
+   	}
+
 }
