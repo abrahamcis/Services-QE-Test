@@ -12,6 +12,7 @@ import org.junit.Assert;
 
 public class Get {
     private BasicSecurityUtil base;
+    private String name;
 
     public Get(BasicSecurityUtil base){
         this.base=base;
@@ -26,6 +27,7 @@ public class Get {
     @Given("I am targeting {string} service")
     public void i_am_targeting_service(String service) throws Exception{
         base.ServiceApi = new ApiTools(base.environment,service);
+
     }
 
     @Given("I want to retrieve all users")
@@ -65,10 +67,24 @@ public class Get {
     public void verifyFieldAsInResponse(String field, String expectedValue) {
         //Assert.assertTrue(ObjectTools.verifyField(Object, field, expectedValue));
     }
+
     
-    @Given("I have a pokemon name")
-   	public void i_have_a_pokemon_name() {
-   	  System.out.println("I´m working");
+    @Given("I have a pokemon name {string}")
+   	public void i_have_a_pokemon_name(String name) {
+        this.name = name;
+   	    System.out.println("looking for "+name);
+
    	}
 
+    @When("I send the GET request with name")
+    public void i_send_the_GET_request_with_name() {
+        base.response=base.ServiceApi.retrieve(base.ServiceApi.hostName + name);
+        System.out.println(base.response);
+
+    }
+
+    @Then("the status code should be {int}")
+    public void the_status_code_should_be(int statusCode) {
+        Assert.assertEquals(statusCode,base.ServiceApi.response.getStatusCode().value());
+    }
 }
