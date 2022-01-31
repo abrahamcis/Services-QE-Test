@@ -9,6 +9,9 @@ public class Type {
 	
 	private String type;
 	private int slot;
-	
-	
+
+	public Type(String type, int slot) {
+		this.type = type;
+		this.slot = slot;
+	}
 }

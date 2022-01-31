@@ -1,6 +1,9 @@
 package com.at.stepdefinitions;
 
 import com.at.constants.ApiPaths;
+import com.at.models.Ability;
+import com.at.models.PokemonInfo;
+import com.at.models.Type;
 import com.at.utils.ApiTools;
 import com.at.utils.BasicSecurityUtil;
 import com.at.utils.ObjectTools;
@@ -8,11 +11,16 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Assert;
+
+import java.io.PrintStream;
+import java.util.Objects;
 
 public class Get {
     private BasicSecurityUtil base;
-    private String name;
+    private String searchName;
 
     public Get(BasicSecurityUtil base){
         this.base=base;
@@ -68,23 +76,48 @@ public class Get {
         //Assert.assertTrue(ObjectTools.verifyField(Object, field, expectedValue));
     }
 
-    
+    //Tania steps
     @Given("I have a pokemon name {string}")
-   	public void i_have_a_pokemon_name(String name) {
-        this.name = name;
-   	    System.out.println("looking for "+name);
-
+   	public void i_have_a_pokemon_name(String searchName) {
+        this.searchName = searchName;
+   	    System.out.println("looking for "+searchName+" information");
    	}
 
     @When("I send the GET request with name")
     public void i_send_the_GET_request_with_name() {
-        base.response=base.ServiceApi.retrieve(base.ServiceApi.hostName + name);
-        System.out.println(base.response);
+        base.response=base.ServiceApi.retrieve(base.ServiceApi.hostName + searchName);
+    }
 
+    @And("I save the response in an object")
+    public void iSaveTheResponseInAnObject() {
+        JSONObject info = new JSONObject(Objects.requireNonNull(base.response.getBody()));
+        int id = info.getInt("id");
+        String name = info.getString("name");
+        int base_experience= info.getInt("base_experience");
+        int height= info.getInt("height");
+        boolean is_default = info.getBoolean("is_default");
+        int weight= info.getInt("weight");
+
+        //Ability[] abilities = (Ability[]) info.get("abilities");
+        //Type[] types = (Type[]) info.get("types");
+
+        PokemonInfo newPokemon = new PokemonInfo(id, name, base_experience, height, is_default, weight, null, null);
+        System.out.println("Id: "+ newPokemon.getId());
+        System.out.println("Name: "+newPokemon.getName());
+        System.out.println("Base experience: "+newPokemon.getBase_experience());
+        System.out.println("Height: "+ newPokemon.getHeight());
+        System.out.println("Weight: "+newPokemon.getWeight());
+        System.out.println("Is default: "+newPokemon.is_default());
+/*
+        System.out.println(info.getJSONArray("abilities").getJSONObject(0).get("is_hidden"));
+        System.out.println(info.length());
+        System.out.println(info.getJSONArray("abilities").getClass());
+ */
     }
 
     @Then("the status code should be {int}")
     public void the_status_code_should_be(int statusCode) {
         Assert.assertEquals(statusCode,base.ServiceApi.response.getStatusCode().value());
     }
+
 }

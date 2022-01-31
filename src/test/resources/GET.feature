@@ -7,6 +7,7 @@ Feature: Get users information
    And I am targeting "PokeAPI" service
 
   Scenario:
-    Given I have a pokemon name "ditto"
+    Given I have a pokemon name "charmander"
     When I send the GET request with name
+    And I save the response in an object
     Then the status code should be 200
