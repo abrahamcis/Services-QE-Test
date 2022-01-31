@@ -97,9 +97,14 @@ public class Get {
         int height= info.getInt("height");
         boolean is_default = info.getBoolean("is_default");
         int weight= info.getInt("weight");
-
-        //Ability[] abilities = (Ability[]) info.get("abilities");
-        //Type[] types = (Type[]) info.get("types");
+        Ability[] abilities = new Ability[info.getJSONArray("abilities").length()];
+            for (int i = 0; i<info.getJSONArray("abilities").length(); i++){
+                abilities[i] = new Ability((JSONObject) info.getJSONArray("abilities").getJSONObject(i).get("ability"), (Boolean) info.getJSONArray("abilities").getJSONObject(i).get("is_hidden"),(Integer) info.getJSONArray("abilities").getJSONObject(i).get("slot"));
+            }
+        Type[] types = new Type[info.getJSONArray("types").length()];
+            for (int j = 0; j<info.getJSONArray("types").length(); j++){
+                types[j] = new Type((JSONObject) info.getJSONArray("types").getJSONObject(j).get("type"), (Integer) info.getJSONArray("types").getJSONObject(j).get("slot"));
+            }
 
         PokemonInfo newPokemon = new PokemonInfo(id, name, base_experience, height, is_default, weight, null, null);
         System.out.println("Id: "+ newPokemon.getId());
@@ -108,11 +113,12 @@ public class Get {
         System.out.println("Height: "+ newPokemon.getHeight());
         System.out.println("Weight: "+newPokemon.getWeight());
         System.out.println("Is default: "+newPokemon.is_default());
-/*
-        System.out.println(info.getJSONArray("abilities").getJSONObject(0).get("is_hidden"));
-        System.out.println(info.length());
-        System.out.println(info.getJSONArray("abilities").getClass());
- */
+        for (int i = 0; i< info.getJSONArray("abilities").length(); i++){
+            System.out.println("Ability "+(i+1)+": "+info.getJSONArray("abilities").getJSONObject(i));
+        }
+        for (int j = 0; j< info.getJSONArray("types").length(); j++){
+            System.out.println("Type "+(j+1)+": "+info.getJSONArray("types").getJSONObject(j));
+        }
     }
 
     @Then("the status code should be {int}")
