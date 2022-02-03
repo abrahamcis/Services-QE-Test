@@ -16,7 +16,10 @@ import org.json.JSONObject;
 import org.junit.Assert;
 
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.Objects;
+
+import static java.util.Arrays.deepToString;
 
 public class Get {
     private BasicSecurityUtil base;
@@ -88,42 +91,56 @@ public class Get {
         base.response=base.ServiceApi.retrieve(base.ServiceApi.hostName + searchName);
     }
 
-    @And("I save the response in an object")
-    public void iSaveTheResponseInAnObject() {
-        JSONObject info = new JSONObject(Objects.requireNonNull(base.response.getBody()));
-        int id = info.getInt("id");
-        String name = info.getString("name");
-        int base_experience= info.getInt("base_experience");
-        int height= info.getInt("height");
-        boolean is_default = info.getBoolean("is_default");
-        int weight= info.getInt("weight");
-        Ability[] abilities = new Ability[info.getJSONArray("abilities").length()];
-            for (int i = 0; i<info.getJSONArray("abilities").length(); i++){
-                abilities[i] = new Ability((JSONObject) info.getJSONArray("abilities").getJSONObject(i).get("ability"), (Boolean) info.getJSONArray("abilities").getJSONObject(i).get("is_hidden"),(Integer) info.getJSONArray("abilities").getJSONObject(i).get("slot"));
-            }
-        Type[] types = new Type[info.getJSONArray("types").length()];
-            for (int j = 0; j<info.getJSONArray("types").length(); j++){
-                types[j] = new Type((JSONObject) info.getJSONArray("types").getJSONObject(j).get("type"), (Integer) info.getJSONArray("types").getJSONObject(j).get("slot"));
-            }
-
-        PokemonInfo newPokemon = new PokemonInfo(id, name, base_experience, height, is_default, weight, null, null);
-        System.out.println("Id: "+ newPokemon.getId());
-        System.out.println("Name: "+newPokemon.getName());
-        System.out.println("Base experience: "+newPokemon.getBase_experience());
-        System.out.println("Height: "+ newPokemon.getHeight());
-        System.out.println("Weight: "+newPokemon.getWeight());
-        System.out.println("Is default: "+newPokemon.is_default());
-        for (int i = 0; i< info.getJSONArray("abilities").length(); i++){
-            System.out.println("Ability "+(i+1)+": "+info.getJSONArray("abilities").getJSONObject(i));
-        }
-        for (int j = 0; j< info.getJSONArray("types").length(); j++){
-            System.out.println("Type "+(j+1)+": "+info.getJSONArray("types").getJSONObject(j));
-        }
-    }
-
     @Then("the status code should be {int}")
     public void the_status_code_should_be(int statusCode) {
         Assert.assertEquals(statusCode,base.ServiceApi.response.getStatusCode().value());
+    }
+
+    @And("I save the response in an object")
+    public void iSaveTheResponseInAnObject() {
+        if (base.ServiceApi.response.getStatusCode().value() < 400 ){
+            JSONObject info = new JSONObject(Objects.requireNonNull(base.response.getBody()));
+            int id = info.getInt("id");
+            String name = info.getString("name");
+            int base_experience= info.getInt("base_experience");
+            int height= info.getInt("height");
+            boolean is_default = info.getBoolean("is_default");
+            int weight= info.getInt("weight");
+            Ability[] abilities = new Ability[info.getJSONArray("abilities").length()];
+                for (int i = 0; i<info.getJSONArray("abilities").length(); i++){
+                    abilities[i] = new Ability((JSONObject) info.getJSONArray("abilities").getJSONObject(i).get("ability"), (Boolean) info.getJSONArray("abilities").getJSONObject(i).get("is_hidden"),(Integer) info.getJSONArray("abilities").getJSONObject(i).get("slot"));
+                }
+            Type[] types = new Type[info.getJSONArray("types").length()];
+                for (int j = 0; j<info.getJSONArray("types").length(); j++){
+                    types[j] = new Type((JSONObject) info.getJSONArray("types").getJSONObject(j).get("type"), (Integer) info.getJSONArray("types").getJSONObject(j).get("slot"));
+                }
+
+            PokemonInfo newPokemon = new PokemonInfo(id, name, base_experience, height, is_default, weight, abilities, types);
+            System.out.println("Id: "+ newPokemon.getId());
+            System.out.println("Name: "+newPokemon.getName());
+            System.out.println("Base experience: "+newPokemon.getBase_experience());
+            System.out.println("Height: "+ newPokemon.getHeight());
+            System.out.println("Weight: "+newPokemon.getWeight());
+            System.out.println("Is default: "+newPokemon.is_default());
+
+            for (int i = 0; i< newPokemon.getAbilities().length; i++){
+                //System.out.println("Ability "+(i+1)+": "+info.getJSONArray("abilities").getJSONObject(i));
+                System.out.println("Ability "+(i+1)+": " +
+                        "abilities: "+ newPokemon.getAbilities()[i].getAbility() +
+                        ", slot: "+ newPokemon.getAbilities()[i].getSlot() +
+                        ", is hidden: "+ newPokemon.getAbilities()[i].isHidden());
+            }
+
+            for (int j = 0; j< newPokemon.getTypes().length; j++){
+                //System.out.println("Type "+(j+1)+": "+info.getJSONArray("types").getJSONObject(j));
+                System.out.println("Type " + (j + 1) + ": " +
+                        "type: " + newPokemon.getTypes()[j].getType() +
+                        ", slot: " + newPokemon.getTypes()[j].getSlot());
+            }
+
+        } else {
+            System.out.println("Invalid pokemon name");
+        }
     }
 
 }

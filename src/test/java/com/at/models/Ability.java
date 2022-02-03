@@ -1,11 +1,10 @@
 package com.at.models;
 
+import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.json.JSONObject;
 
-@Getter
-@Setter
+@Data
 public class Ability {
 	
 	private JSONObject ability;
