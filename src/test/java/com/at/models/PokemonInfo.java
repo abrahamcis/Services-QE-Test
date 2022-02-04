@@ -32,9 +32,5 @@ public class PokemonInfo {
 		this.types = types;
 	}
 
-    public static void main(String[] args) {
-
-
-	}
 	
 }

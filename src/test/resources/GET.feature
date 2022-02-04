@@ -18,3 +18,15 @@ Feature: Get users information
       | "ekans"   | 200    |
       | "vaporeon"| 200    |
       | "invalid" | 404    |
+
+
+  @scenario2
+  Scenario Outline:
+    Given I have a pokemon name <name>
+    When I send the GET request with name
+    Then the status code should be <status>
+    And I save the response in an object
+    And Verify field "abilities[0].ability.slot" as "3" in response
+    Examples:
+      | name      | status |
+      | "ditto"   | 200    |

@@ -6,6 +6,8 @@ import com.at.models.PokemonInfo;
 import com.at.models.Type;
 import com.at.utils.ApiTools;
 import com.at.utils.BasicSecurityUtil;
+import com.at.utils.ObjectTools;
+import com.google.gson.Gson;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -18,6 +20,7 @@ import java.util.Objects;
 public class Get {
     private BasicSecurityUtil base;
     private String searchName;
+    private PokemonInfo pokeInfo;
 
     public Get(BasicSecurityUtil base){
         this.base=base;
@@ -67,7 +70,7 @@ public class Get {
 
     @And("Verify field {string} as {string} in response")
     public void verifyFieldAsInResponse(String field, String expectedValue) {
-        //Assert.assertTrue(ObjectTools.verifyField(Object, field, expectedValue));
+        Assert.assertTrue(ObjectTools.verifyField(pokeInfo, field, expectedValue));
     }
 
     //Tania steps
@@ -80,6 +83,7 @@ public class Get {
     @When("I send the GET request with name")
     public void i_send_the_GET_request_with_name() {
         base.response=base.ServiceApi.retrieve(base.ServiceApi.hostName + searchName);
+        base.responseBody = base.ServiceApi.response.getBody();
     }
 
     @Then("the status code should be {int}")
@@ -89,8 +93,11 @@ public class Get {
 
     @And("I save the response in an object")
     public void iSaveTheResponseInAnObject() {
+        Gson gson = new Gson();
+        pokeInfo = gson.fromJson(base.responseBody, PokemonInfo.class);
 
-        try {
+
+       /* try {
         JSONObject info = new JSONObject(Objects.requireNonNull(base.response.getBody()));
         int id = info.getInt("id");
         String name = info.getString("name");
@@ -134,6 +141,6 @@ public class Get {
             if(base.ServiceApi.response.getStatusCode().value() == 404){
                 System.out.println("Invalid pokemon name");
             }
-        }
+        }*/
     }
 }
