@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(plugin = {"pretty","de.monochromata.cucumber.report.PrettyReports:target/cucumber"},
         features = {"src/test/resources/"},
         glue = {"com.at.stepdefinitions"},
-        tags = "@Get and @1",
+        tags = "@test",
         monochrome = false)
 public class RunCakeTest {
 }

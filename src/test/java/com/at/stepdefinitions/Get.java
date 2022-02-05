@@ -1,9 +1,11 @@
 package com.at.stepdefinitions;
 
 import com.at.constants.ApiPaths;
+import com.at.model.PokeInfo;
 import com.at.utils.ApiTools;
 import com.at.utils.BasicSecurityUtil;
 import com.at.utils.ObjectTools;
+import com.google.gson.Gson;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -12,6 +14,7 @@ import org.junit.Assert;
 
 public class Get {
     private BasicSecurityUtil base;
+    private PokeInfo pokeInfo;
 
     public Get(BasicSecurityUtil base){
         this.base=base;
@@ -33,9 +36,15 @@ public class Get {
         base.apiResource= ApiPaths.SCE_GET_USERS;
     }
 
+    @Given("I want to retrieve {string} information")
+    public void i_want_to_retrieve_poke(String pokeName) throws Exception{
+        base.apiResource= ApiPaths.GET_POKE + pokeName;
+    }
+
     @When("I send a GET request")
     public void i_send_a_GET_request() {
         base.response=base.ServiceApi.retrieve(base.ServiceApi.hostName + base.apiResource);
+        base.responseBody = base.response.getBody();
     }
 
     @Then("the status code should be {string}")
@@ -64,5 +73,11 @@ public class Get {
     @And("Verify field {string} as {string} in response")
     public void verifyFieldAsInResponse(String field, String expectedValue) {
         //Assert.assertTrue(ObjectTools.verifyField(Object, field, expectedValue));
+    }
+
+    @And("I build the response object")
+    public void iBuildTheResponseObject() {
+        Gson gson = new Gson();
+        pokeInfo = gson.fromJson(base.responseBody, PokeInfo.class);
     }
 }
