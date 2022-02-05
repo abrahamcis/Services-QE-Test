@@ -7,13 +7,13 @@ import org.json.JSONObject;
 @Data
 public class Ability {
 	
-	private JSONObject ability;
-	private boolean isHidden;
+	private AbilityName ability;
+	private boolean is_hidden;
 	private int slot;
 
-	public Ability(JSONObject ability, boolean isHidden, int slot) {
+	public Ability(AbilityName ability, boolean is_hidden, int slot) {
 		this.ability = ability;
-		this.isHidden = isHidden;
+		this.is_hidden = is_hidden;
 		this.slot = slot;
 	}
 }

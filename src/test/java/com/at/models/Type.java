@@ -1,18 +1,12 @@
 package com.at.models;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.json.JSONObject;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@Getter
-@Setter
+@AllArgsConstructor
+@Data
 public class Type {
-	
-	private JSONObject type;
+	private TypeName type;
 	private int slot;
 
-	public Type(JSONObject type, int slot) {
-		this.type = type;
-		this.slot = slot;
-	}
 }
