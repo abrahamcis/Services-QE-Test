@@ -1,9 +1,11 @@
 package com.at.stepdefinitions;
 
 import com.at.constants.ApiPaths;
+import com.at.models.Curriculum;
 import com.at.utils.ApiTools;
 import com.at.utils.BasicSecurityUtil;
 import com.at.utils.ObjectTools;
+import com.google.gson.Gson;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -14,6 +16,7 @@ public class Get {
     private BasicSecurityUtil base;
 
     public Get(BasicSecurityUtil base){
+
         this.base=base;
     }
 
@@ -21,7 +24,7 @@ public class Get {
     public void i_am_working_on_environment(String env) throws Exception{
         base.environment=env;
     }
-
+    //rest Asurured
 
     @Given("I am targeting {string} service")
     public void i_am_targeting_service(String service) throws Exception{
@@ -35,9 +38,28 @@ public class Get {
 
     @When("I send a GET request")
     public void i_send_a_GET_request() {
+        System.out.println(base.ServiceApi.hostName + base.apiResource);
         base.response=base.ServiceApi.retrieve(base.ServiceApi.hostName + base.apiResource);
     }
 
+    @Given("I want to retrieve a user by his resourceID {string}")
+    public void i_want_to_retrieve_all_users(String resourceID) throws Exception{
+        ApiPaths.setUser_id(resourceID);
+        base.apiResource= ApiPaths.getUserByResourceID;
+    }
+
+    @Then("I get response for GET request")
+    public void i_get_response_for_GET_request() {
+        String responseBody = base.ServiceApi.response.getBody();
+        // convert String to an Json object
+        // convert String to a GSON builder - googleAPI- java objects
+        Gson response_get = new Gson();
+        //.class are use to pass classes as variable
+        System.out.println(base.ServiceApi.response.getBody());
+        Curriculum curriculum = response_get.fromJson(responseBody, Curriculum.class);
+
+        System.out.println(curriculum);
+    }
     @Then("the status code should be {string}")
     public void the_status_code_should_be(String statusCode) {
         int status= Integer.parseInt(statusCode);

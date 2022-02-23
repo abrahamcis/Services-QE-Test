@@ -37,6 +37,7 @@ public class MongoDBConnection {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
             String uriString = prop.getProperty(env + "." + db);
+            // this connects to the database using a inner method to connect to service https:local,etc
             getMongoClient(uriString);
             mDataBase = getDB(db);
             System.out.println("Connection successful");
