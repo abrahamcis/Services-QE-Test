@@ -5,15 +5,15 @@ package com.at.models;
 import java.util.List;
 
 public class Curriculum {
-    private List<Challenge> chagelles;
+    private List<Challenge> challenges;
     private String city;
     private Config config;
     private String country;
-    private List<Educational> educational;
+    private List<Educational> education;
     private String email;
-    private String firtsName;
+    private String firstName;
     private String job;
-    private List<Languages> lenguage;
+    private List<Languages> languages;
     private String lastName;
     private String phoneNumber;
     private String resourceId;
@@ -24,32 +24,77 @@ public class Curriculum {
     public Curriculum(){
 
     }
-
-    public Curriculum(List<Educational> education,String email,String firtsName,List<Languages> lenguage,String lastName,String phoneNumber,List<Skills> skills,String resourceId){
-    this.educational=  education;
-    this.email=email;
-    this.firtsName= firtsName;
-    this.lenguage= lenguage;
-    this.lastName=lastName;
-    this.phoneNumber=phoneNumber;
-    this.skills= skills;
-    this.resourceId=resourceId;
-
+    public Curriculum(List<Challenge> challenges, String city, Config config, String country, List<Educational> education, String email, String firstName, String job, String lastName, String phoneNumber, String resourceId, List<Skills> skills, SocialMedia socialMedia, List<WorkExperience> workexperience) {
+        this.challenges = challenges;
+        this.city = city;
+        this.config = config;
+        this.country = country;
+        this.education = education;
+        this.email = email;
+        this.firstName = firstName;
+        this.job = job;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.resourceId = resourceId;
+        this.skills = skills;
+        this.socialMedia = socialMedia;
+        this.workexperience = workexperience;
     }
-    public String getCity(){
+
+    public Curriculum(List<Challenge> challenges, String city, Config config, String country, List<Educational> education, String email, String firstName, String job, List<Languages> languages, String lastName, String phoneNumber, String resourceId, List<Skills> skills, SocialMedia socialMedia, List<WorkExperience> workexperience) {
+        this.challenges = challenges;
+        this.city = city;
+        this.config = config;
+        this.country = country;
+        this.education = education;
+        this.email = email;
+        this.firstName = firstName;
+        this.job = job;
+        this.languages = languages;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.resourceId = resourceId;
+        this.skills = skills;
+        this.socialMedia = socialMedia;
+        this.workexperience = workexperience;
+    }
+
+    @Override
+    public String toString() {
+        return "Curriculum{" +
+                "challenges=" + challenges +
+                ", city='" + city + '\'' +
+                ", config=" + config +
+                ", country='" + country + '\'' +
+                ", education=" + education +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", job='" + job + '\'' +
+                ", languages=" + languages +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", resourceId='" + resourceId + '\'' +
+                ", skills=" + skills +
+                ", socialMedia=" + socialMedia +
+                ", workexperience=" + workexperience +
+                '}';
+    }
+
+
+    public List<Challenge> getChallenges() {
+        return challenges;
+    }
+
+    public void setChallenges(List<Challenge> challenges) {
+        this.challenges = challenges;
+    }
+
+    public String getCity() {
         return city;
     }
 
-    public void setCity(String city){
-        this.city=city;
-    }
-
-    public List<Challenge> getChagelles() {
-        return chagelles;
-    }
-
-    public void setChagelles(List<Challenge> chagelles) {
-        this.chagelles = chagelles;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public Config getConfig() {
@@ -68,12 +113,12 @@ public class Curriculum {
         this.country = country;
     }
 
-    public List<Educational> getEducational() {
-        return educational;
+    public List<Educational> getEducation() {
+        return education;
     }
 
-    public void setEducational(List<Educational> educational) {
-        this.educational = educational;
+    public void setEducation(List<Educational> education) {
+        this.education = education;
     }
 
     public String getEmail() {
@@ -84,12 +129,12 @@ public class Curriculum {
         this.email = email;
     }
 
-    public String getFirtsName() {
-        return firtsName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirtsName(String firtsName) {
-        this.firtsName = firtsName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getJob() {
@@ -100,12 +145,12 @@ public class Curriculum {
         this.job = job;
     }
 
-    public List<Languages> getLenguage() {
-        return lenguage;
+    public List<Languages> getLanguages() {
+        return languages;
     }
 
-    public void setLenguage(List<Languages> lenguage) {
-        this.lenguage = lenguage;
+    public void setLanguages(List<Languages> languages) {
+        this.languages = languages;
     }
 
     public String getLastName() {
@@ -148,32 +193,11 @@ public class Curriculum {
         this.socialMedia = socialMedia;
     }
 
-    public List<WorkExperience> getWorkExperiences() {
+    public List<WorkExperience> getWorkexperience() {
         return workexperience;
     }
 
-    public void setWorkExperiences(List<WorkExperience> workExperiences) {
-        this.workexperience = workExperiences;
-    }
-
-    @Override
-    public String toString() {
-        return "Curriculum{" +
-                "chagelles=" + chagelles +
-                ", city='" + city + '\'' +
-                ", config=" + config +
-                ", country='" + country + '\'' +
-                ", educational=" + educational +
-                ", email='" + email + '\'' +
-                ", firtsName='" + firtsName + '\'' +
-                ", job='" + job + '\'' +
-                ", lenguage=" + lenguage +
-                ", lastName='" + lastName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", resourceId='" + resourceId + '\'' +
-                ", skills=" + skills +
-                ", socialMedia=" + socialMedia +
-                ", workexperience=" + workexperience +
-                '}';
+    public void setWorkexperience(List<WorkExperience> workexperience) {
+        this.workexperience = workexperience;
     }
 }

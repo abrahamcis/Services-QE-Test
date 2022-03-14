@@ -1,10 +1,8 @@
 package com.at.utils;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+
+
+import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -36,22 +34,18 @@ public class MongoDBConnection {
             } else {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
+            System.out.println("Debugin env:"+env);
             String uriString = prop.getProperty(env + "." + db);
             // this connects to the database using a inner method to connect to service https:local,etc
-            getMongoClient(uriString);
-            mDataBase = getDB(db);
+            System.out.println(uriString);
+            mClient = MongoClients.create("mongodb+srv://ATAdmin:administrator@cluster0.8ifkg.mongodb.net/test");
+            System.out.println("Debugging db"+db);
+            mDataBase = getDB("AT");
             System.out.println("Connection successful");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Failed to make connection!");
         }
-    }
-
-    private MongoClient getMongoClient(String uriString) {
-        if (mClient == null) {
-            mClient = new MongoClient(new MongoClientURI(uriString));
-        }
-        return mClient;
     }
 
     private MongoDatabase getDB(String db) {
@@ -163,5 +157,14 @@ public class MongoDBConnection {
             bool = true;
         }
         return bool;
+    }
+    public MongoCollection<Document> getCollectionFromDataBase(String collection){
+        return mDataBase.getCollection(collection);
+    }
+    public Document getDocumentByKeyValue(MongoCollection<Document> collection, String key, String value){
+        return collection.find(Filters.eq(key,value)).first();
+    }
+    public Object getElementByKeyFromDocument(Document document, String key){
+        return document.get(key);
     }
 }

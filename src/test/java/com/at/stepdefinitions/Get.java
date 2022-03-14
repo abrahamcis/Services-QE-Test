@@ -2,31 +2,31 @@ package com.at.stepdefinitions;
 
 import com.at.constants.ApiPaths;
 import com.at.models.Curriculum;
-import com.at.utils.ApiTools;
-import com.at.utils.BasicSecurityUtil;
-import com.at.utils.ObjectTools;
+import com.at.utils.*;
 import com.google.gson.Gson;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.junit.Assert;
 
 public class Get {
-    private BasicSecurityUtil base;
+    private BasicSecurityUtil base= Hooks.getBase();
+    private MongoDBConnection mongo;
+    private MongoDBUtils mongoQuery;
 
-    public Get(BasicSecurityUtil base){
+    /*public Get(BasicSecurityUtil base){
 
         this.base=base;
-    }
+    }*/
 
-    @Given("I am working on {string} environment")
+    @Given("^I am working on \"([^\"]*)\" environment$")
     public void i_am_working_on_environment(String env) throws Exception{
         base.environment=env;
     }
     //rest Asurured
 
-    @Given("I am targeting {string} service")
+    @Given("^I am targeting \"([^\"]*)\" service$")
     public void i_am_targeting_service(String service) throws Exception{
         base.ServiceApi = new ApiTools(base.environment,service);
     }
@@ -41,9 +41,15 @@ public class Get {
         System.out.println(base.ServiceApi.hostName + base.apiResource);
         base.response=base.ServiceApi.retrieve(base.ServiceApi.hostName + base.apiResource);
     }
+    @When("I query in Collection  and with ID  in MongoDB")
+    public void i_query_in_Collection_and_with_ID_in_MongoDB(String collection, String id) {
+        mongoQuery=new MongoDBUtils();
+        System.out.println(mongoQuery.getJObjectByID("env","test",collection,id));
+    }
 
-    @Given("I want to retrieve a user by his resourceID {string}")
+    @Given("^I want to retrieve a user by his resourceID \"([^\"]*)\"$")
     public void i_want_to_retrieve_all_users(String resourceID) throws Exception{
+        base.apiResource="";
         ApiPaths.setUser_id(resourceID);
         base.apiResource= ApiPaths.getUserByResourceID;
     }
@@ -60,7 +66,7 @@ public class Get {
 
         System.out.println(curriculum);
     }
-    @Then("the status code should be {string}")
+    @Then("the status code should be \"([^\"]*)\"")
     public void the_status_code_should_be(String statusCode) {
         int status= Integer.parseInt(statusCode);
         Assert.assertEquals(status,base.ServiceApi.response.getStatusCode().value());
@@ -69,21 +75,21 @@ public class Get {
     @Then("information retrieved from service should match with DB")
     public void information_retrieved_from_service_should_match_with_DB() {
         //Add validations to DB
-        throw new io.cucumber.java.PendingException();
+
     }
 
-    @And("I set {string} as {string} value on the request")
+    @And("I set  value on the request")
     public void iSetAsValueOnTheRequest(String field, String value) {
         //ObjectTools.updateField(Object, field, value);
     }
 
-    @And("I delete the field {string}")
+    @And("I delete the field \"([^\"]*)\" ")
     public void iDeleteTheField(String field) {
         //ObjectTools.deleteField(Object, field);
     }
 
 
-    @And("Verify field {string} as {string} in response")
+    @And("Verify field  in response")
     public void verifyFieldAsInResponse(String field, String expectedValue) {
         //Assert.assertTrue(ObjectTools.verifyField(Object, field, expectedValue));
     }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import com.at.models.Curriculum;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -68,7 +69,7 @@ public class ApiTools {
     }
 
 
-    public ResponseEntity<String> PUTMethod(String apiPath, String requestBody) {
+    public ResponseEntity<String> PUTMethod(String apiPath, Curriculum requestBody) {
         try {
 
             HttpHeaders headers = new HttpHeaders();
@@ -87,7 +88,7 @@ public class ApiTools {
                 }
             });
 
-            HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+            HttpEntity<Curriculum> requestEntity = new HttpEntity<>(requestBody, headers);
             response = restTemplate.exchange(apiPath, HttpMethod.PUT, requestEntity, String.class);
 
         } catch (HttpClientErrorException e) {
@@ -99,7 +100,7 @@ public class ApiTools {
         return response;
     }
 
-    public ResponseEntity<String> POSTMethod(String hostName, String apiPath, String requestBody) {
+    public ResponseEntity<String> POSTMethod(String hostName, String apiPath, Curriculum requestBody) {
 //		SSLCertificateValidation.disable();
         try {
 //			headers.add("Authorization", null);
@@ -107,8 +108,9 @@ public class ApiTools {
             //headers.setContentType(contentType);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add("OUser-Agent", "User-Agent");
-            headers.add("Content-Type", "application/json");
+            //headers.add("OUser-Agent", "User-Agent");
+            //headers.add("Content-Type", "application/json");
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
             restTemplate.setErrorHandler(new ResponseErrorHandler() {
 
@@ -122,10 +124,11 @@ public class ApiTools {
                 }
             });
             //HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(map, headers);
-            HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-            //System.out.println("\n\tRequest body: " + requestBody );
+            HttpEntity<Curriculum> requestEntity = new HttpEntity<>(requestBody, headers);
+            System.out.println("\n\tRequest body: " + requestBody );
             //System.out.println("\n\tFULL PATH " + hostName + "" + apiPath + "" + HttpMethod.POST + "" + requestEntity + "" + String.class);
             //response = restTemplate.exchange(hostName + apiPath, HttpMethod.PUT, , String.class);
+            //System.out.println("Api route from post method"+hostName+apiPath);
             response = restTemplate.exchange(hostName + apiPath, HttpMethod.POST, requestEntity, String.class);
             //System.out.println("statuscode  "+response.getStatusCode()+"  body  "+ response.getBody()+" status code value "+response.getStatusCodeValue());
         } catch (HttpClientErrorException e) {
