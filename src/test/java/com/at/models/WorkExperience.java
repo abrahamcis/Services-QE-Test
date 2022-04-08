@@ -2,20 +2,47 @@ package com.at.models;
 
 import org.junit.AfterClass;
 
+import java.util.Objects;
+
 public class WorkExperience {
     private String company;
     private String current;
     private String description;
     private String from;
-    private String tittle;
+    private String title;
     private String to;
 
-    public WorkExperience(String company, String current, String description, String from, String tittle, String to) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WorkExperience)) return false;
+        WorkExperience that = (WorkExperience) o;
+        return Objects.equals(company, that.company) && Objects.equals(current, that.current) && Objects.equals(description, that.description) && Objects.equals(from, that.from) && Objects.equals(title, that.title) && Objects.equals(to, that.to);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(company, current, description, from, title, to);
+    }
+
+    @Override
+    public String toString() {
+        return "WorkExperience{" +
+                "company='" + company + '\'' +
+                ", current='" + current + '\'' +
+                ", description='" + description + '\'' +
+                ", from='" + from + '\'' +
+                ", title='" + title + '\'' +
+                ", to='" + to + '\'' +
+                '}';
+    }
+
+    public WorkExperience(String company, String current, String description, String from, String title, String to) {
         this.company = company;
         this.current = current;
         this.description = description;
         this.from = from;
-        this.tittle = tittle;
+        this.title = title;
         this.to = to;
     }
 
@@ -51,12 +78,12 @@ public class WorkExperience {
         this.from = from;
     }
 
-    public String getTittle() {
-        return tittle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getTo() {

@@ -5,13 +5,16 @@ import com.at.controller.DataFactory;
 import com.at.models.*;
 import com.at.utils.*;
 import com.google.gson.Gson;
+import com.mongodb.client.MongoCollection;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.bson.Document;
 import org.junit.Assert;
 
 public class Post {
     private BasicSecurityUtil base= Hooks.getBase();
+    private Curriculum mongoCurriculum = Hooks.getCurriculumMongo();
     /*public Post(BasicSecurityUtil base){
         this.base=base;
     }*/
@@ -98,6 +101,7 @@ public class Post {
     @When("I send the Curriculum in a POST request")
     public void i_send_the_Curriculum_in_a_POST_request() {
         Curriculum curriculum = DataFactory.getCurriculumPersonalized();
+        System.out.println("Request Curriculum:  "+curriculum);
         System.out.println(base.ServiceApi.hostName+base.apiResource);
         base.response=base.ServiceApi.POSTMethod(base.ServiceApi.hostName ,base.apiResource,curriculum);
     }
@@ -108,5 +112,38 @@ public class Post {
         boolean condition = true;
         boolean containString=completeText.contains(subString);
         Assert.assertEquals(condition,containString);
+    }
+    @Then("^I validate the ResourceID has been created in the database$")
+    public void i_validate_the_ResourceID_has_been_created_in_the_database() throws Throwable {
+        // Write code here that turns the phrase above into concrete action
+        String response = base.ServiceApi.response.getBody();
+        Gson gson = new Gson();
+        Curriculum curr_response = gson.fromJson(response,Curriculum.class);
+        MongoDBConnection db = new MongoDBConnection("envi","db");
+        MongoCollection collectionArray = db.getCollectionFromDataBase("Curriculum");
+        Document doc = db.getDocumentByKeyValue(collectionArray,"_id",curr_response.getResourceId());
+        Curriculum curriculum = db.convertDocumentToACurriculum(doc);
+        db.close();
+        Assert.assertEquals(curr_response.getResourceId(),curriculum.getResourceId());
+
+
+    }
+    @Then("^I validate the RequestBody matches with the BD data$")
+    public void i_validate_the_RequestBody_matches_with_the_BD_data() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        String response = base.ServiceApi.response.getBody();
+        Gson gson = new Gson();
+        Curriculum curr_response = gson.fromJson(response,Curriculum.class);
+        MongoDBConnection db = new MongoDBConnection("envi","db");
+        MongoCollection collectionArray = db.getCollectionFromDataBase("Curriculum");
+        Document doc = db.getDocumentByKeyValue(collectionArray,"_id",curr_response.getResourceId());
+        Curriculum curriculum = db.convertDocumentToACurriculum(doc);
+        db.close();
+        Curriculum requestBody = DataFactory.getCurriculumPersonalized();
+        requestBody.setResourceId(curr_response.getResourceId());
+        System.out.println("Request Body: "+requestBody);
+        System.out.println("MongoDB query: "+curriculum);
+        Assert.assertEquals(requestBody.getResourceId(),curriculum.getResourceId());
+        Assert.assertEquals(requestBody,curriculum);
     }
 }

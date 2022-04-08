@@ -8,6 +8,6 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = {"src/test/resources"},
         glue = {"com.at.stepdefinitions"},
-        tags = {"@MongoDB"})
+        tags = {"@PUT","@test11"})
 public class RunCakeTest {
 }

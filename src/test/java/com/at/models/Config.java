@@ -1,5 +1,7 @@
 package com.at.models;
 
+import java.util.Objects;
+
 public class Config {
     private String color;
     private String fontFamily;
@@ -33,5 +35,27 @@ public class Config {
 
     public void setGenericFamily(String genericFamily) {
         this.genericFamily = genericFamily;
+    }
+
+    @Override
+    public String toString() {
+        return "Config{" +
+                "color='" + color + '\'' +
+                ", fontFamily='" + fontFamily + '\'' +
+                ", genericFamily='" + genericFamily + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Config)) return false;
+        Config config = (Config) o;
+        return Objects.equals(color, config.color) && Objects.equals(fontFamily, config.fontFamily) && Objects.equals(genericFamily, config.genericFamily);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, fontFamily, genericFamily);
     }
 }

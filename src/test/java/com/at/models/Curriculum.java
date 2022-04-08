@@ -2,9 +2,21 @@ package com.at.models;
 
 
 
+import com.google.gson.*;
+import com.google.gson.annotations.*;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.List;
+import java.util.Objects;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 public class Curriculum {
+
+
     private List<Challenge> challenges;
     private String city;
     private Config config;
@@ -16,6 +28,7 @@ public class Curriculum {
     private List<Languages> languages;
     private String lastName;
     private String phoneNumber;
+    @SerializedName(value="resourceId", alternate={"_id"})
     private String resourceId;
     private List<Skills> skills;
     private SocialMedia socialMedia;
@@ -57,6 +70,19 @@ public class Curriculum {
         this.skills = skills;
         this.socialMedia = socialMedia;
         this.workexperience = workexperience;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Curriculum)) return false;
+        Curriculum that = (Curriculum) o;
+        return Objects.equals(challenges, that.challenges) && Objects.equals(city, that.city) && Objects.equals(config, that.config) && Objects.equals(country, that.country) && Objects.equals(education, that.education) && Objects.equals(email, that.email) && Objects.equals(firstName, that.firstName) && Objects.equals(job, that.job) && Objects.equals(languages, that.languages) && Objects.equals(lastName, that.lastName) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(resourceId, that.resourceId) && Objects.equals(skills, that.skills) && Objects.equals(socialMedia, that.socialMedia) && Objects.equals(workexperience, that.workexperience);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(challenges, city, config, country, education, email, firstName, job, languages, lastName, phoneNumber, resourceId, skills, socialMedia, workexperience);
     }
 
     @Override

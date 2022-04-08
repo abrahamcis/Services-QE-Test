@@ -2,7 +2,11 @@ package com.at.utils;
 
 
 
+import com.at.controller.DataFactory;
+import com.at.models.Curriculum;
+import com.google.gson.Gson;
 import com.mongodb.client.*;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -11,6 +15,9 @@ import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,13 +41,15 @@ public class MongoDBConnection {
             } else {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
-            System.out.println("Debugin env:"+env);
-            String uriString = prop.getProperty(env + "." + db);
+            // the name of the variable is envi
+            //System.out.println(env);
+            String uriString = prop.getProperty(env);
+            String dbMongo = prop.getProperty(db);
             // this connects to the database using a inner method to connect to service https:local,etc
             System.out.println(uriString);
-            mClient = MongoClients.create("mongodb+srv://ATAdmin:administrator@cluster0.8ifkg.mongodb.net/test");
-            System.out.println("Debugging db"+db);
-            mDataBase = getDB("AT");
+            mClient = MongoClients.create(uriString);
+            //System.out.println("Debugging db: "+dbMongo);
+            mDataBase = getDB(dbMongo);
             System.out.println("Connection successful");
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,13 +167,31 @@ public class MongoDBConnection {
         }
         return bool;
     }
+    //functions that are working for me
     public MongoCollection<Document> getCollectionFromDataBase(String collection){
         return mDataBase.getCollection(collection);
     }
     public Document getDocumentByKeyValue(MongoCollection<Document> collection, String key, String value){
         return collection.find(Filters.eq(key,value)).first();
     }
+    public Document getARandomDocument(MongoCollection<Document> collection){
+        List<Document> resul = new ArrayList<>();
+        collection.aggregate(Arrays.asList(Aggregates.sample(50))).into(resul);
+       return resul.get(randomeNumber());
+
+    }
+    public Curriculum convertDocumentToACurriculum(Document doc){
+        Curriculum curriculum= new Curriculum();
+        Gson gson = new Gson();
+        //System.out.println(doc.toJson());
+        curriculum= gson.fromJson(doc.toJson(),Curriculum.class);
+        //curriculum.setResourceId((String)doc.get("_id"));
+        return curriculum;
+    }
     public Object getElementByKeyFromDocument(Document document, String key){
         return document.get(key);
+    }
+    public int randomeNumber(){
+        return (int)(Math.random()*50+1);
     }
 }

@@ -1,47 +1,43 @@
 package com.at.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Objects;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Challenge {
-    private String date;
-    private String descrption;
     private String name;
+    private String date;
+    private String description;
     private String url;
 
-    public Challenge(String date, String descrption, String name, String url) {
-        this.date = date;
-        this.descrption = descrption;
-        this.name = name;
-        this.url = url;
+
+
+    @Override
+    public String toString() {
+        return "Challenge{" +
+                "date='" + date + '\'' +
+                ", description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                '}';
     }
 
-    public String getDate() {
-        return date;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Challenge)) return false;
+        Challenge challenge = (Challenge) o;
+        return Objects.equals(date, challenge.date) && Objects.equals(description, challenge.description) && Objects.equals(name, challenge.name) && Objects.equals(url, challenge.url);
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getDescrption() {
-        return descrption;
-    }
-
-    public void setDescrption(String descrption) {
-        this.descrption = descrption;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, description, name, url);
     }
 }

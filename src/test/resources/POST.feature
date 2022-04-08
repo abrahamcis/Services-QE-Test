@@ -18,6 +18,8 @@ Feature: Post users information
       And I set up user Social Media facebook "String" instagram "String" linkedin "String" pinterest "String" snapchat "String" twitter "String"
       And I send the Curriculum in a POST request
     Then the status code should be "201"
+      And I validate the ResourceID has been created in the database
+      And I validate the RequestBody matches with the BD data
 
   @test2
     Scenario: Validate status response without a required field

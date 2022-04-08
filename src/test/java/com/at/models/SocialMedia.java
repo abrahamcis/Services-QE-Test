@@ -1,5 +1,7 @@
 package com.at.models;
 
+import java.util.Objects;
+
 public class SocialMedia {
     private String facebook;
     private String instagram;
@@ -63,5 +65,30 @@ public class SocialMedia {
 
     public void setTwitter(String twitter) {
         this.twitter = twitter;
+    }
+
+    @Override
+    public String toString() {
+        return "SocialMedia{" +
+                "facebook='" + facebook + '\'' +
+                ", instagram='" + instagram + '\'' +
+                ", linkedin='" + linkedin + '\'' +
+                ", pinterest='" + pinterest + '\'' +
+                ", snapchat='" + snapchat + '\'' +
+                ", twitter='" + twitter + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SocialMedia)) return false;
+        SocialMedia that = (SocialMedia) o;
+        return Objects.equals(facebook, that.facebook) && Objects.equals(instagram, that.instagram) && Objects.equals(linkedin, that.linkedin) && Objects.equals(pinterest, that.pinterest) && Objects.equals(snapchat, that.snapchat) && Objects.equals(twitter, that.twitter);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(facebook, instagram, linkedin, pinterest, snapchat, twitter);
     }
 }

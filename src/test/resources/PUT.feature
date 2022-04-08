@@ -176,3 +176,22 @@ Feature: Post users information
     And I recieve the Json response
     Then I validate Json response and missing field should be displaying in response "workexperience"
     And the status code should be "400"
+
+    @test11
+  Scenario: I validate PUT method with correct data
+      Given I query in the mongoDB an Aleatory document and print it
+      And I want to retrieve a user with the mongoDB document
+    And I want to Update user by his ResourceID
+    And I set up Curriculum to blank
+    And I set up user personal info firstName "Alvarado" lastName "flkfdjdlfkjflkd" email "Gozal@gmail.com" phone number "859799889" country "Meixoc" city "Monterrey"
+    And I set up user skills
+    And I set up user Work Experience
+    And I set up user languages Language "English" with a level "Middle"
+    And I set up user Education With Bachelor "University" to "2022" forever "none" from "2018"
+    And I set up user Challenges date start "2021" description "mermelada" name "Tacos Challenge" url "www.youtube.com"
+    And I set up user Config color "blue" font family "comicsan" generic font "italic"
+    And I set up user Social Media facebook "String" instagram "String" linkedin "String" pinterest "String" snapchat "String" twitter "String"
+    When I send a PUT request
+    Then I recieve the Json response
+    And the status code should be "202"
+      And I validate the RequestBody matches with the BD data
