@@ -17,9 +17,11 @@ public class Get {
     public Get(BasicSecurityUtil base){
         this.base=base;
     }
+
     public Get(){
 
     }
+
     @Given("^I am working on \"([^\"]*)\" environment$")
     public void i_am_working_on_environment(String env) {
         // Write code here that turns the phrase above into concrete actions
