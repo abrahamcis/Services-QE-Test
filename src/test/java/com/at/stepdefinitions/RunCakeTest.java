@@ -11,6 +11,6 @@ import org.junit.runner.RunWith;
         plugin = {"pretty", "json:target/cucumber.json"},
         features = {"src/test/resources"},
         glue = {"com.at.stepdefinitions"},
-        tags = "@Get")
+        tags = "@Positive and @1")
 public class RunCakeTest {
 }

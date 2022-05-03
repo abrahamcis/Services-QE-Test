@@ -64,10 +64,10 @@ public class Get {
         System.out.println(base.ServiceApi.response.getBody());
 
     }
-    @Then("the status code should be {string}")
-    public void the_status_code_should_be(String statusCode) {
-        int status= Integer.parseInt(statusCode);
-        Assert.assertEquals(status,base.ServiceApi.response.getStatusCode().value());
+    @Then("the status code should be {int}")
+    public void the_status_code_should_be(int statusCode) {
+        //int status= Integer.parseInt(statusCode);
+        Assert.assertEquals("StatusCode", statusCode,base.ServiceApi.response.getStatusCode().value());
     }
 
     @Then("I compare both json response and expect to be similar")
@@ -100,7 +100,12 @@ public class Get {
 
     @Given("I have {string} resource ID")
     public void iHaveResourceID(String resourceId) {
-        base.apiResource += ApiPaths.GET_PERSON + resourceId;
+        base.apiResource = ApiPaths.GET_PERSON + resourceId;
         System.out.println(base.apiResource);
+    }
+
+    @And("The response is a valid curriculum")
+    public void verifyIfItsAValidPerson(){
+
     }
 }
