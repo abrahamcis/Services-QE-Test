@@ -4,11 +4,10 @@
         import com.at.utils.ApiTools;
         import com.at.utils.BasicSecurityUtil;
         import com.google.gson.Gson;
-        import cucumber.api.java.en.And;
-        import cucumber.api.java.en.Given;
-        import cucumber.api.java.en.Then;
-        import cucumber.api.java.en.When;
-        import io.cucumber.messages.Messages;
+        import io.cucumber.java.en.And;
+        import io.cucumber.java.en.Given;
+        import io.cucumber.java.en.Then;
+        import io.cucumber.java.en.When;
         import org.junit.Assert;
 
 public class Get {
@@ -22,7 +21,7 @@ public class Get {
 
     }
 
-    @Given("^I am working on \"([^\"]*)\" environment$")
+    @Given("I am working on {string} environment")
     public void i_am_working_on_environment(String env) {
         // Write code here that turns the phrase above into concrete actions
         System.out.println(env);
@@ -30,12 +29,12 @@ public class Get {
     }
     //rest Asurured
 
-    @Given("^I am targeting \"([^\"]*)\" service$")
+    @Given("I am targeting {string} service")
     public void i_am_targeting_service(String service){
         base.ServiceApi = new ApiTools(base.environment,service);
     }
 
-    @Given("^I want to retrieve all users$")
+    @Given("I want to retrieve all users")
     public void i_want_to_retrieve_all_users(){
         //the variable has to be refresh since the execution starts the value in null
 
@@ -50,7 +49,7 @@ public class Get {
     }
 
 
-    @Given("^I want to retrieve a user by his resourceID \"([^\"]*)\"$")
+    @Given("I want to retrieve a user by his resourceID {string}")
     public void i_want_to_retrieve_all_users(String resourceID){
         base.apiResource="";
     }
@@ -65,13 +64,13 @@ public class Get {
         System.out.println(base.ServiceApi.response.getBody());
 
     }
-    @Then("the status code should be \"([^\"]*)\"")
+    @Then("the status code should be {string}")
     public void the_status_code_should_be(String statusCode) {
         int status= Integer.parseInt(statusCode);
         Assert.assertEquals(status,base.ServiceApi.response.getStatusCode().value());
     }
 
-    @Then("^I compare both json response and expect to be similar$")
+    @Then("I compare both json response and expect to be similar")
     public void i_compare_both_json_response_and_expect_to_be_similar() {
         // Write code here that turns the phrase above into concrete actions
         //Assert.assertEquals(true,mongoCurriculum.equals(getResponse));
@@ -88,7 +87,7 @@ public class Get {
         //ObjectTools.updateField(Object, field, value);
     }
 
-    @And("I delete the field \"([^\"]*)\" ")
+    @And("I delete the field {string} ")
     public void iDeleteTheField(String field) {
         //ObjectTools.deleteField(Object, field);
     }
@@ -97,5 +96,11 @@ public class Get {
     @And("Verify field  in response")
     public void verifyFieldAsInResponse(String field, String expectedValue) {
         //Assert.assertTrue(ObjectTools.verifyField(Object, field, expectedValue));
+    }
+
+    @Given("I have {string} resource ID")
+    public void iHaveResourceID(String resourceId) {
+        base.apiResource += ApiPaths.GET_PERSON + resourceId;
+        System.out.println(base.apiResource);
     }
 }
