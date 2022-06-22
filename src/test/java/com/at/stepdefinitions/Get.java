@@ -4,6 +4,8 @@ import com.at.constants.ApiPaths;
 import com.at.utils.ApiTools;
 import com.at.utils.BasicSecurityUtil;
 import com.at.utils.ObjectTools;
+import cucumber.api.Scenario;
+import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -65,4 +67,11 @@ public class Get {
     public void verifyFieldAsInResponse(String field, String expectedValue) {
         //Assert.assertTrue(ObjectTools.verifyField(Object, field, expectedValue));
     }
+
+    /*@After
+    public void after(Scenario scenario) {
+        if (base.apiResource != null) scenario.write("apiPath: " + base.apiResource);
+        if (base.requestBody != null) scenario.write("requestBody: " + base.requestBody);
+        if (base.responseBody != null) scenario.write("responseBody: " + base.responseBody);
+    }*/
 }

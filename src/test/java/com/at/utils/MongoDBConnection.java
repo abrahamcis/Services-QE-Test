@@ -88,7 +88,7 @@ public class MongoDBConnection {
     public String getObjectByID(String collection, String id) {
         String mObject = "";
         MongoCollection<Document> coll = mDataBase.getCollection(collection);
-        FindIterable<Document> findIterable = coll.find(Filters.eq("_id", new ObjectId(id)));
+        FindIterable<Document> findIterable = coll.find(Filters.eq("_id", id));
         try {
             for (Document doc : findIterable) {
                 JSONObject monObject = new JSONObject(doc.toJson());
