@@ -17,6 +17,13 @@ public class MongoDBUtils {
         return monObj;
     }
 
+    public static String getJObjectByFirstName(String env, String mDataBase, String collection, String name) {
+        MongoDBConnection db = new MongoDBConnection(env, mDataBase);
+        String monObj = db.getObjectByFirstName(collection, name);
+        db.close();
+        return monObj;
+    }
+
     public static String getRandomID(String env, String mDataBase, String collection) {
         MongoDBConnection db = new MongoDBConnection(env, mDataBase);
         String id = db.foundRandomID(collection);

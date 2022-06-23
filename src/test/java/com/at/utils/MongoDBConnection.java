@@ -1,10 +1,17 @@
 package com.at.utils;
 
-import com.mongodb.MongoClient;
+import com.mongodb.Block;
+/*import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import org.bson.Document;
+import org.bson.types.ObjectId;*/
+//import com.mongodb.MongoClient;
+//import com.mongodb.MongoClientURI;
+import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -14,6 +21,7 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +56,8 @@ public class MongoDBConnection {
 
     private MongoClient getMongoClient(String uriString) {
         if (mClient == null) {
-            mClient = new MongoClient(new MongoClientURI(uriString));
+            //mClient = new MongoClient(new MongoClientURI(uriString));
+            mClient = MongoClients.create(uriString);
         }
         return mClient;
     }
@@ -88,15 +97,30 @@ public class MongoDBConnection {
     public String getObjectByID(String collection, String id) {
         String mObject = "";
         MongoCollection<Document> coll = mDataBase.getCollection(collection);
-        FindIterable<Document> findIterable = coll.find(Filters.eq("_id", id));
-        try {
+        //FindIterable<Document> findIterable = coll.find(Filters.eq(id));
+        Document findIterable = coll.find(Filters.eq("_id", id)).first();
+        System.out.println("data " + findIterable.toJson());
+        //System.out.println(coll.find(Filters.eq(id)));
+        /*try {
             for (Document doc : findIterable) {
+                System.out.println(doc.toJson());
                 JSONObject monObject = new JSONObject(doc.toJson());
                 mObject = monObject.toString();
+                System.out.println(monObject);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
+        return mObject;
+    }
+
+    public String getObjectByFirstName(String collection, String name) {
+        String mObject = "";
+        MongoCollection<Document> coll = mDataBase.getCollection(collection);
+        FindIterable<Document> findIterable = coll.find(Filters.eq("firstName", name));
+        //Document findIterable = coll.find(Filters.eq("_id", id)).first();
+        System.out.println("data " + findIterable.first());
+        //System.out.println(coll.find(Filters.eq(id)));
         return mObject;
     }
 
