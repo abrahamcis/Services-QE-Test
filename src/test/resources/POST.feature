@@ -22,8 +22,27 @@ Feature: Get users information
       Then the response status code is 400
       And the response body has attribute "statusMessage"
       And the response body has attribute "errorDetails"
-      And the "education" field has error message
-      #Add mandatory data validation TODO
+      And the "education" field has error "This field is mandatory"
+      And the "education" field has error "This field must contain information"
+      And the "email" field has error "This field is mandatory"
+      And the "email" field has error "This field must contain information"
+      And the "email" field has error "This field cannot be blank"
+      And the "firstName" field has error "This field is mandatory"
+      And the "firstName" field has error "This field must contain information"
+      And the "firstName" field has error "This field cannot be blank"
+      And the "lastName" field has error "This field is mandatory"
+      And the "lastName" field has error "This field must contain information"
+      And the "lastName" field has error "This field cannot be blank"
+      And the "languages" field has error "This field is mandatory"
+      And the "languages" field has error "This field must contain information"
+      And the "phoneNumber" field has error "This field is mandatory"
+      And the "phoneNumber" field has error "This field must contain information"
+      And the "phoneNumber" field has error "This field cannot be blank"
+      And the "skills" field has error "This field is mandatory"
+      And the "skills" field has error "This field must contain information"
+      And the "workexperience" field has error "This field is mandatory"
+      And the "workexperience" field has error "This field must contain information"
+      And the "workexperience" field has error "This field cannot be blank"
 
     @3 @Positive
     Scenario: Create record only with the mandatory parameters.

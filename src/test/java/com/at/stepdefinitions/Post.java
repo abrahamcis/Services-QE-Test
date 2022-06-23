@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Post {
@@ -281,28 +282,27 @@ public class Post {
         Assert.assertNotNull(jObject.get(attribute));
     }
 
-    @And("the {string} field has error message")
-    public void theFieldHasErrorMessage(String field) {
+    @And("the {string} field has error {string}")
+    public void theFieldHasError(String field, String expectedMessage) {
         JSONObject jObject = new JSONObject(base.responseBody);
         JSONArray errorDetailsObj = jObject.getJSONArray("errorDetails");
         //System.out.println(errorDetailsObj.length());
+        ArrayList<String> messageList = new ArrayList<String>();
 
-        for (int i=0; i<errorDetailsObj.length(); i++) {
+        for (int i=0; i < errorDetailsObj.length(); i++) {
             if (errorDetailsObj.getJSONObject(i).get("field").equals(field)) {
-                System.out.println(errorDetailsObj.getJSONObject(i).get("errorMessage"));
+                messageList.add(errorDetailsObj.getJSONObject(i).get("errorMessage").toString());
             }
         }
 
-        /*for (int i=0; i<errorDetailsObj.length(); i++) {
-            System.out.println(i);
-            System.out.println(errorDetailsObj.getJSONObject(i).get("field"));
-            System.out.println(errorDetailsObj.getJSONObject(i).get("errorMessage"));
-        }*/
+        //Assert.assertTrue(messageList.contains(expectedMessage));
+        Assert.assertTrue("Field " + field + " does not contain error message: " + expectedMessage, messageList.contains(expectedMessage));
     }
 
     @And("the curriculum exists in DB")
     public void theCurriculumExistsInDB() {
-        System.out.println(MongoDBUtils.getJObjectByID("QA","curriculumDB","Curriculum","be1d93cd-b92f-4400-8101-e7a9c5fc3141"));
+        //System.out.println(MongoDBUtils.getJObjectByID("QA","curriculumDB","Curriculum","be1d93cd-b92f-4400-8101-e7a9c5fc3141"));
+        System.out.println(MongoDBUtils.getJObjectByFirstName("QA","curriculumDB","Curriculum","Alvarado"));
     }
 }
 
