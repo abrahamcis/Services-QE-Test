@@ -301,8 +301,8 @@ public class Post {
 
     @And("the curriculum exists in DB")
     public void theCurriculumExistsInDB() {
-        //System.out.println(MongoDBUtils.getJObjectByID("QA","curriculumDB","Curriculum","be1d93cd-b92f-4400-8101-e7a9c5fc3141"));
-        System.out.println(MongoDBUtils.getJObjectByFirstName("QA","curriculumDB","Curriculum","Alvarado"));
+        System.out.println(MongoDBUtils.getJObjectByID("QA","AT","Curriculum","40db27f3-27e1-49a2-937a-f38c5d2af99f"));
+        //System.out.println(MongoDBUtils.getJObjectByFirstName("QA","AT","Curriculum","Alvarado"));
     }
 }
 

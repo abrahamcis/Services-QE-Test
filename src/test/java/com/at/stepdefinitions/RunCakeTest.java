@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(plugin = {"pretty","json:target/cucumber.json"},
         features = {"src/test/resources/"},
         glue = {"com.at.stepdefinitions"},
-        tags = "@Post and @2",
+        tags = "@Post and @1",
         monochrome = false)
 public class RunCakeTest {
 }
