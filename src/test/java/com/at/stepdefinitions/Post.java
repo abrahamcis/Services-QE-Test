@@ -19,6 +19,7 @@ import java.util.List;
 
 public class Post {
     private BasicSecurityUtil base;
+    public static String RESOURCEID;
 
     public Post(BasicSecurityUtil base){
         this.base=base;
@@ -279,7 +280,9 @@ public class Post {
     public void theResponseBodyHasAttributeResourceId(String attribute) {
         JSONObject jObject = new JSONObject(base.responseBody);
         Assert.assertTrue(jObject.has(attribute));
-        Assert.assertNotNull(jObject.get(attribute));
+        RESOURCEID = jObject.get(attribute).toString();
+        Assert.assertNotNull(RESOURCEID);
+        System.out.println("resource id : "+RESOURCEID);
     }
 
     @And("the {string} field has error {string}")
@@ -302,7 +305,8 @@ public class Post {
     @And("the curriculum exists in DB")
     public void theCurriculumExistsInDB() {
         //System.out.println(MongoDBUtils.getJObjectByID("QA","curriculumDB","Curriculum","be1d93cd-b92f-4400-8101-e7a9c5fc3141"));
-        System.out.println(MongoDBUtils.getJObjectByFirstName("QA","curriculumDB","Curriculum","Alvarado"));
+
+        System.out.println(MongoDBUtils.getJObjectByID("QA","AT","Curriculum",RESOURCEID));
     }
 }
 
